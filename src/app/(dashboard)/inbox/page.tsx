@@ -13,6 +13,7 @@ import { TemplateMessage } from "@/components/TemplateMessage";
 import { GalleryPickerModal } from "@/components/GalleryPickerModal";
 import "./inbox.css";
 import { Search } from "lucide-react";
+import { useAuthStore } from "@/store/auth";
 
 import { useEffect, useState, useRef } from "react";
 import {
@@ -34,6 +35,10 @@ import {
   FileText,
   AlertCircle,
   Image,
+  User,
+  UserCheck,
+  ChevronDown,
+  Loader2,
 } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ngrokAxiosInstance } from "@/lib/axiosInstance";
@@ -48,6 +53,8 @@ import { useSocket } from "@/hooks/useSocket";
 /* ---------- Types ---------- */
 interface Contact {
   id: number;
+  dbId?: number | null;
+  assignedTo?: string | null;
   name: string;
   phone?: string | null;
   initials?: string;
@@ -418,6 +425,8 @@ const mapContactsForSidebar = (items: any[], idSeed: string): Contact[] => {
 
     return {
       id: createStableContactId(`${idSeed}-${leadPhone || "unknown"}-${index}`),
+      dbId: item?.contactId || item?.contact_id || item?.contact?.id || item?.id || null,
+      assignedTo: item?.assignedTo || item?.assigned_to || item?.contact?.assignedTo || item?.contact?.assigned_to || null,
       name: displayName,
       phone: displayLeadPhone || null,
       initials: buildInitials(displayName),
@@ -534,6 +543,7 @@ const getDateGroupLabel = (date: Date): string => {
 
 /* ---------- Component ---------- */
 export default function InboxPage() {
+  const { user } = useAuthStore();
   const queryClient = useQueryClient();
   const [activeFilter] = useState("All");
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
@@ -593,6 +603,146 @@ export default function InboxPage() {
   // ⭐ Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const CONTACTS_PER_PAGE = 10;
+
+  // ⭐ Contact Assignment Dropdown States
+  const [isAssigneeDropdownOpen, setIsAssigneeDropdownOpen] = useState(false);
+  const [assigneeSearchQuery, setAssigneeSearchQuery] = useState("");
+  const [assigningContactId, setAssigningContactId] = useState<string | number | null>(null);
+  const [loadingAssignee, setLoadingAssignee] = useState(false);
+
+  // ✅ Fetch system users from companies/user API
+  const { data: systemUsers = [] } = useQuery({
+    queryKey: ["systemUsers"],
+    queryFn: async () => {
+      try {
+        const response = await ngrokAxiosInstance.get(
+          "/admin/companies/user?role=user&page=1&limit=10"
+        );
+        const resData = response.data;
+        
+        let userList: any[] = [];
+        const dataPayload = resData?.data;
+        if (Array.isArray(resData)) {
+          userList = resData;
+        } else if (Array.isArray(dataPayload)) {
+          userList = dataPayload;
+        } else if (dataPayload && Array.isArray(dataPayload.users)) {
+          userList = dataPayload.users;
+        } else if (dataPayload && Array.isArray(dataPayload.data)) {
+          userList = dataPayload.data;
+        } else if (dataPayload && Array.isArray(dataPayload.rows)) {
+          userList = dataPayload.rows;
+        } else if (dataPayload && Array.isArray(dataPayload.contacts)) {
+          userList = dataPayload.contacts;
+        } else if (resData && Array.isArray(resData.users)) {
+          userList = resData.users;
+        } else if (resData && Array.isArray(resData.data)) {
+          userList = resData.data;
+        } else if (resData && Array.isArray(resData.rows)) {
+          userList = resData.rows;
+        } else if (resData && Array.isArray(resData.contacts)) {
+          userList = resData.contacts;
+        }
+        return userList;
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+        return [];
+      }
+    },
+  });
+
+  // ✅ Resolve database ID for contact assignment
+  const getRealContactId = async (contact: Contact): Promise<number | string | null> => {
+    if (contact.dbId) return contact.dbId;
+    
+    try {
+      const response = await ngrokAxiosInstance.get(`/admin/contacts?limit=100`);
+      const data = response.data;
+      const rawContacts = Array.isArray(data) ? data : data?.data?.contacts || data?.data?.data || data?.contacts || [];
+      const match = rawContacts.find((c: any) => {
+        const p1 = String(c.phone_number || c.phone || "").replace(/\D/g, "");
+        const p2 = String(contact.phone || "").replace(/\D/g, "");
+        return p1 && p2 && p1 === p2;
+      });
+      if (match?.id) return match.id;
+    } catch (err) {
+      console.error("Error finding contact dbId:", err);
+    }
+    return null;
+  };
+
+  // ✅ Handle assignment API request
+  const handleAssignContact = async (contactId: string | number, userName: string, userId: string | number) => {
+    try {
+      setAssigningContactId(contactId);
+      
+      let realId = contactId;
+      if (selectedContact && selectedContact.id === contactId) {
+        const resolvedId = await getRealContactId(selectedContact);
+        if (resolvedId) {
+          realId = resolvedId;
+        }
+      }
+      
+      await ngrokAxiosInstance.put(
+        `/admin/contacts/${realId}/assigned`,
+        {
+          assignedTo: userName || null,
+          userId: userId || null,
+        }
+      );
+      
+      toast.success(userName ? `Successfully assigned to ${userName}` : "Successfully unassigned");
+      
+      // Update local selectedContact state if it matches the assigned contact
+      if (selectedContact && selectedContact.id === contactId) {
+        setSelectedContact((prev) => prev ? { ...prev, assignedTo: userName || null } : null);
+      }
+      
+      // Refresh contacts cache to show updated assignee in sidebar/filters
+      queryClient.invalidateQueries({ queryKey: ["contacts"] });
+      queryClient.invalidateQueries({ queryKey: ["systemUsers"] });
+      
+    } catch (error) {
+      console.error("Error assigning contact:", error);
+      toast.error("Failed to assign contact. Please try again.");
+    } finally {
+      setAssigningContactId(null);
+      setIsAssigneeDropdownOpen(false);
+    }
+  };
+
+  // ✅ Fetch assignee info for the selected contact
+  const fetchCurrentAssignee = async () => {
+    if (!selectedContact) return;
+    try {
+      setLoadingAssignee(true);
+      const realId = await getRealContactId(selectedContact);
+      if (!realId) return;
+
+      const response = await ngrokAxiosInstance.get(
+        `/admin/contacts/${realId}/assigned`
+      );
+      const data = response.data;
+      const payload = data?.data ?? data;
+      const assignedTo = payload?.assignedTo ?? payload?.assigned_to ?? null;
+      setSelectedContact((prev) =>
+        prev && prev.id === selectedContact.id
+          ? { ...prev, assignedTo }
+          : prev
+      );
+    } catch (err) {
+      console.error("Error fetching assignee:", err);
+    } finally {
+      setLoadingAssignee(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isAssigneeDropdownOpen && selectedContact) {
+      fetchCurrentAssignee();
+    }
+  }, [isAssigneeDropdownOpen, selectedContact?.id]);
 
   const { register, watch, reset } = useForm<MessageFormInputs>({
     defaultValues: { message: "" },
@@ -1058,13 +1208,63 @@ export default function InboxPage() {
 
       // Map external fields → internal Message fields
       const mapped = uniqueRaw.map((m: any) => {
-        const resolvedType = String(m.type || m.content?.type || "text").toLowerCase();
+        // Try parsing JSON if content/text/message is a JSON string
+        let parsedJSON: any = null;
+        const candidateJSONStrings = [
+          typeof m?.content === "string" ? m.content : null,
+          typeof m?.text === "string" ? m.text : null,
+          typeof m?.message === "string" ? m.message : null,
+          typeof m?.content?.text === "string" ? m.content.text : null,
+        ].filter(Boolean);
+
+        for (const str of candidateJSONStrings) {
+          const trimmed = str.trim();
+          if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+            try {
+              parsedJSON = JSON.parse(trimmed);
+              break;
+            } catch { /* ignore */ }
+          }
+        }
+
+        const typeFromJSON = parsedJSON?.type || parsedJSON?.message_type || parsedJSON?.messageType;
+        const mediaUrlFromJSON = parsedJSON?.media_url || parsedJSON?.mediaUrl;
+        const mediaTypeFromJSON = parsedJSON?.media_type || parsedJSON?.mediaType;
+        const textFromJSON = parsedJSON?.text || parsedJSON?.caption || parsedJSON?.message;
+
+        const resolvedType = String(
+          m.type ||
+          m.messageType ||
+          m.message_type ||
+          typeFromJSON ||
+          m.content?.type ||
+          "text"
+        ).toLowerCase();
+
+        const mediaUrl =
+          m.mediaUrl ||
+          m.media_url ||
+          mediaUrlFromJSON ||
+          m.content?.mediaUrl ||
+          m.content?.media_url ||
+          null;
+
+        const mediaType =
+          m.mediaType ||
+          m.media_type ||
+          mediaTypeFromJSON ||
+          m.content?.mediaType ||
+          m.content?.media_type ||
+          null;
+
         const textFromContent =
-          typeof m?.content === "string"
+          textFromJSON ||
+          (typeof m?.content === "string"
             ? m.content.trim()
             : typeof m?.content?.text === "string"
               ? m.content.text.trim()
-              : "";
+              : "");
+
         const normalizedComponents = normalizeTemplateComponents(
           m.templateComponents ||
           m.content?.template?.components ||
@@ -1086,8 +1286,8 @@ export default function InboxPage() {
           status: m.status || "",
           createdAt: m.createdAt || m.created_at || m.timestamp || new Date().toISOString(),
           type: resolvedType,
-          mediaUrl: m.mediaUrl || m.media_url || null,
-          mediaType: m.mediaType || m.media_type || null,
+          mediaUrl: mediaUrl,
+          mediaType: mediaType,
           messageType: resolvedType || null,
           whatsappMessageId: m.wamid || m.whatsappMessageId || null,
           isTemplate: isTemplateMessage,
@@ -2244,26 +2444,116 @@ lg:relative lg:flex
 
                   {/* Action icons */}
                   <div className="flex items-center gap-4 text-white">
-                    <div className="relative group">
-                      <Phone
-                        size={18}
-                        className={`${iconJumpAnimation} hover:text-blue-600 transition-colors duration-200`}
-                      />
-                      <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-blue-100 text-blue-800 text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap shadow-lg border border-blue-300 font-semibold transform group-hover:translate-y-0.5">
-                        Audio call
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-blue-300"></div>
-                      </span>
-                    </div>
+                    {/* Assignee Dropdown */}
+                    <div className="relative">
+                      <button
+                        onClick={() => setIsAssigneeDropdownOpen(!isAssigneeDropdownOpen)}
+                        disabled={assigningContactId === selectedContact?.id}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs font-semibold shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-44"
+                      >
+                        {assigningContactId === selectedContact?.id || loadingAssignee ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-600" />
+                        ) : selectedContact?.assignedTo ? (
+                          <UserCheck className="w-3.5 h-3.5 text-green-600" />
+                        ) : (
+                          <User className="w-3.5 h-3.5 text-gray-500" />
+                        )}
+                        <span className="truncate">
+                          {loadingAssignee ? "Loading..." : selectedContact?.assignedTo
+                            ? `Assigned: ${selectedContact.assignedTo}`
+                            : "Unassigned"}
+                        </span>
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isAssigneeDropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
 
-                    <div className="relative group">
-                      <Video
-                        size={18}
-                        className={`${iconJumpAnimation} hover:text-blue-600 transition-colors duration-200`}
-                      />
-                      <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-blue-100 text-blue-800 text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap shadow-lg border border-blue-300 font-semibold transform group-hover:translate-y-0.5">
-                        Video call
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-blue-300"></div>
-                      </span>
+                      {isAssigneeDropdownOpen && (
+                        <>
+                          <div
+                            className="fixed inset-0 z-30"
+                            onClick={() => setIsAssigneeDropdownOpen(false)}
+                          />
+                          <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-40 p-2 transform origin-top-right transition-all duration-200 scale-100 opacity-100">
+                            {/* Search filter */}
+                            <div className="mb-2 px-2 pt-1">
+                              <input
+                                type="text"
+                                placeholder="Search users..."
+                                value={assigneeSearchQuery}
+                                onChange={(e) => setAssigneeSearchQuery(e.target.value)}
+                                className="w-full px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-gray-100"
+                              />
+                            </div>
+
+                            {/* User list */}
+                            <div className="max-h-56 overflow-y-auto space-y-1">
+                              {loadingAssignee ? (
+                                <div className="flex flex-col items-center justify-center py-6 gap-2 text-xs text-gray-500 dark:text-gray-400">
+                                  <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+                                  <span>Fetching assignment...</span>
+                                </div>
+                              ) : (
+                                <>
+                                  {(() => {
+                                    // Filter and map users
+                                    const filtered = systemUsers.filter((u: any) => {
+                                      const name = String(u.name || "").toLowerCase();
+                                      const email = String(u.email || "").toLowerCase();
+                                      const q = assigneeSearchQuery.toLowerCase().trim();
+                                      return !q || name.includes(q) || email.includes(q);
+                                    });
+
+                                    const usersToShow = filtered.map((u: any) => ({
+                                      id: u.id,
+                                      name: u.name || u.email || "Unknown User",
+                                      assignedTo: u.assignedTo ?? u.assigned_to ?? null,
+                                    }));
+
+                                    return usersToShow.map((contactItem) => {
+                                      const isSelected =
+                                        !!user &&
+                                        (contactItem.assignedTo === user.id ||
+                                          String(contactItem.assignedTo).toLowerCase() === String(user.name || "").toLowerCase());
+                                      
+                                      return (
+                                        <div
+                                          key={contactItem.id}
+                                          onClick={() => {
+                                            if (assigningContactId === contactItem.id) return;
+                                            if (isSelected) {
+                                              // Unassign contact
+                                              handleAssignContact(contactItem.id, "", "");
+                                            } else {
+                                              // Assign contact to the logged-in user
+                                              handleAssignContact(contactItem.id, user?.name || "Admin", user?.id || "");
+                                            }
+                                          }}
+                                          className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg cursor-pointer transition-colors ${
+                                            isSelected
+                                              ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+                                              : "hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
+                                          }`}
+                                        >
+                                          <span className="flex items-center gap-2">
+                                            <UserCheck className="w-3.5 h-3.5" />
+                                            {contactItem.name}
+                                          </span>
+                                          <input
+                                            type="checkbox"
+                                            checked={isSelected}
+                                            disabled={assigningContactId === contactItem.id}
+                                            onChange={() => {}} // handled by parent onClick
+                                            className="rounded text-blue-600 focus:ring-blue-500 w-3.5 h-3.5 cursor-pointer"
+                                          />
+                                        </div>
+                                      );
+                                    });
+                                  })()}
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     <div className="relative group">
@@ -2275,17 +2565,6 @@ lg:relative lg:flex
                       </button>
                       <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-blue-900 text-white text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap">
                         FAQ Bot
-                      </span>
-                    </div>
-
-                    <div className="relative group">
-                      <MoreVertical
-                        size={15}
-                        className={`${iconJumpAnimation} hover:text-blue-600 transition-colors duration-200`}
-                      />
-                      <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-blue-100 text-blue-800 text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap shadow-lg border border-blue-300 font-semibold transform group-hover:translate-y-0.5">
-                        Options
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-blue-300"></div>
                       </span>
                     </div>
 

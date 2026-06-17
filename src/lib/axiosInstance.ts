@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const NGROK_BASE_URL = process.env.NEXT_PUBLIC_NGROK_BASE_URL || "https://hostapi.soft7.in/v1";
+const NGROK_BASE_URL = process.env.NEXT_PUBLIC_NGROK_BASE_URL || "https://console-whatsapp-api.onrender.com/v1";
 
 // Axios instance for the external ngrok API
 export const ngrokAxiosInstance = axios.create({

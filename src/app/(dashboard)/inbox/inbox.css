@@ -1,19 +1,12 @@
 /* ===============================
    CLEAN BLUE/blue THEME
    Professional & Modern Design
-   NO HOVER EFFECTS VERSION
-=================================*/
+   Aesthetics & Animations Enabled
+ =================================*/
 
 /* PAGE */
 .inbox-page {
   background: #ffffff;
-  border-radius: 0 !important;
-}
-
-/* Remove all rounded corners from inbox page */
-.inbox-page,
-.inbox-page * {
-  border-radius: 0 !important;
 }
 
 /* Exception: Keep avatars and buttons circular */
@@ -53,10 +46,9 @@
   border-radius: 8px !important;
 }
 
-/* Disable all transitions to prevent layout shifts */
+/* Transitions and animations for dynamic interactive design */
 .inbox-page * {
-  transition: none !important;
-  animation: none !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
 }
 
 /* ===============================
@@ -305,77 +297,64 @@
   stroke: #ffffff !important;
 }
 
-/* CONTACT ROWS - NO HOVER */
-.inbox-page .contact-item,
-.inbox-page .contact-item:hover,
-.inbox-page .contact-item:focus,
-.inbox-page .contact-item:active {
+/* CONTACT ROWS */
+.inbox-page .contact-item {
   border-bottom: 1px solid #f3f4f6;
   color: #111827;
   padding: 16px 20px;
   cursor: pointer;
-  background: transparent !important;
-  transition: none !important;
-  transform: none !important;
-  box-shadow: none !important;
+  background: transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.light .inbox-page .contact-item,
-.light .inbox-page .contact-item:hover,
-.light .inbox-page .contact-item:focus,
-.light .inbox-page .contact-item:active {
-  border-bottom: 1px solid #f3f4f6 !important;
-  background: transparent !important;
+.light .inbox-page .contact-item {
+  border-bottom: 1px solid #f3f4f6;
+  color: #111827;
 }
 
-.dark .inbox-page .contact-item,
-.dark .inbox-page .contact-item:hover,
-.dark .inbox-page .contact-item:focus,
-.dark .inbox-page .contact-item:active {
-  border-bottom: 1px solid rgba(55, 65, 81, 0.3) !important;
-  background: transparent !important;
+.dark .inbox-page .contact-item {
+  border-bottom: 1px solid rgba(55, 65, 81, 0.3);
+  color: #f3f4f6;
 }
 
-/* Force remove all hover states */
-.inbox-page .contact-item *,
-.inbox-page .contact-item:hover *,
-.light .inbox-page .contact-item *,
-.light .inbox-page .contact-item:hover *,
-.dark .inbox-page .contact-item *,
-.dark .inbox-page .contact-item:hover * {
-  background: transparent !important;
-  background-color: transparent !important;
-  transform: none !important;
-  box-shadow: none !important;
-  color: unset !important;
+.light .inbox-page .contact-item:hover {
+  background: #f3f4f6 !important;
 }
 
-/* Selected state only */
-.inbox-page .contact-item.selected {
-  background: #eff6ff !important;
-  border-left: 4px solid #bfdbfe;
+.dark .inbox-page .contact-item:hover {
+  background: #2d3748 !important;
 }
 
+/* Selected state */
 .light .inbox-page .contact-item.selected {
   background: #eff6ff !important;
-  border-left: 4px solid #bfdbfe !important;
-  border-bottom: 1px solid #f3f4f6 !important;
+  border-left: 4px solid #3b82f6 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
 }
 
 .dark .inbox-page .contact-item.selected {
-  background: #eff6ff !important;
-  border-left: 4px solid #93c5fd !important;
-  border-bottom: 1px solid rgba(55, 65, 81, 0.3) !important;
+  background: #2d3748 !important;
+  border-left: 4px solid #3b82f6 !important;
+  border-bottom: 1px solid rgba(55, 65, 81, 0.5) !important;
 }
 
-/* Selected contact text visibility fix */
+/* Ensure readable text in selected states */
+.light .inbox-page .contact-item.selected .font-semibold {
+  color: #1e3a8a !important;
+}
+
+.light .inbox-page .contact-item.selected .text-xs,
+.light .inbox-page .contact-item.selected .text-gray-500 {
+  color: #3b82f6 !important;
+}
+
 .dark .inbox-page .contact-item.selected .font-semibold {
-  color: #111827 !important;
+  color: #ffffff !important;
 }
 
 .dark .inbox-page .contact-item.selected .text-xs,
 .dark .inbox-page .contact-item.selected .text-gray-500 {
-  color: #374151 !important;
+  color: #93c5fd !important;
 }
 
 
@@ -1295,78 +1274,6 @@
     border-left: none;
   }
 }
-
-/* ===============================
-   UTILITY OVERRIDES - NO HOVER
-=================================*/
-
-.inbox-page .bg-blue-600,
-.inbox-page .bg-blue-700,
-.inbox-page .bg-blue-500 {
-  background: #bfdbfe !important;
-}
-
-.inbox-page .hover\:bg-blue-700:hover,
-.inbox-page .hover\:bg-blue-500:hover,
-.inbox-page .hover\:bg-blue-600:hover {
-  background: #bfdbfe !important;
-}
-
-.inbox-page .focus\:ring-blue-500:focus,
-.inbox-page .ring-blue-500 {
-  --tw-ring-color: #bfdbfe !important;
-}
-
-.inbox-page .text-blue-200,
-.inbox-page .text-blue-300,
-.inbox-page .text-blue-400,
-.inbox-page .text-blue-500,
-.inbox-page .text-blue-600 {
-  color: #3b82f6 !important;
-}
-
-.inbox-page .border-blue-200,
-.inbox-page .border-blue-300,
-.inbox-page .border-blue-400,
-.inbox-page .border-blue-500,
-.inbox-page .border-blue-600 {
-  border-color: #bfdbfe !important;
-}
-
-/* Force no background changes on hover for contacts */
-.inbox-page .contact-item,
-.inbox-page .contact-item *,
-.inbox-page .contact-item:hover,
-.inbox-page .contact-item:hover *,
-.inbox-page .contact-item:focus,
-.inbox-page .contact-item:active {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* Only selected state gets background */
-.inbox-page .contact-item.selected {
-  background: #eff6ff !important;
-}
-
-.light .inbox-page .contact-item.selected {
-  background: #eff6ff !important;
-}
-
-.dark .inbox-page .contact-item.selected {
-  background: #eff6ff !important;
-}
-
-/* Selected contact text visibility fix */
-.dark .inbox-page .contact-item.selected .font-semibold {
-  color: #111827 !important;
-}
-
-.dark .inbox-page .contact-item.selected .text-xs,
-.dark .inbox-page .contact-item.selected .text-gray-500 {
-  color: #374151 !important;
-}
-
 
 /* Clean, professional spacing */
 .inbox-page .contact-item .font-semibold {

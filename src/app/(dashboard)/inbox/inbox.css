@@ -8,6 +8,7 @@
 .inbox-page {
   background: #ffffff;
   border-radius: 0 !important;
+  overflow: hidden !important;
 }
 
 /* Remove all rounded corners from inbox page */
@@ -33,11 +34,11 @@
 }
 
 .inbox-page .message.incoming .bubble {
-  border-top-left-radius: 4px !important;
+  border-start-start-radius: 4px !important;
 }
 
 .inbox-page .message.outgoing .bubble {
-  border-top-right-radius: 4px !important;
+  border-start-end-radius: 4px !important;
 }
 
 .inbox-page .template-button {
@@ -48,7 +49,7 @@
   border-radius: 8px !important;
 }
 
-.inbox-page input[type="text"],
+.inbox-page input[type='text'],
 .inbox-page .message-input {
   border-radius: 8px !important;
 }
@@ -70,38 +71,38 @@
   align-items: center;
 
   flex-shrink: 0 !important;
-  width: 80px !important;
+  inline-size: 80px !important;
 }
 
 /* Icon Sidebar - Solid Light Mint-Cyan */
 .inbox-page .icon-sidebar {
-  background: #ccfbf1 !important;
-  border-right: none !important;
+  background: #dbeafe !important;
+  border-inline-end: none !important;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04) !important;
 }
 
 /* Light Mode Sidebar - Very Light Mint-Cyan */
 .light .inbox-page .icon-sidebar {
-  background: #e0f9f4 !important;
-  border-right: none !important;
+  background: #eff6ff !important;
+  border-inline-end: none !important;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03) !important;
 }
 
 /* Dark Mode Sidebar - Light Mint-Cyan */
 .dark .inbox-page .icon-sidebar {
-  background: #14b8a6 !important;
-  border-right: none !important;
+  background: #3b82f6 !important;
+  border-inline-end: none !important;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* ICON BUTTONS - NO HOVER */
 .inbox-page .icon-button,
 .inbox-page .icon-button:hover {
-  background: rgba(204, 251, 241, 0.7);
-  color: #0d9488;
+  background: rgba(219, 234, 254, 0.7);
+  color: #2563eb;
   border: none;
-  width: 56px;
-  height: 56px;
+  inline-size: 56px;
+  block-size: 56px;
   border-radius: 50% !important;
   display: flex;
   align-items: center;
@@ -112,12 +113,11 @@
   transform: none;
 }
 
-
 /* Light Mode Icon Buttons - NO HOVER */
 .light .inbox-page .icon-button,
 .light .inbox-page .icon-button:hover {
-  background: rgba(204, 251, 241, 0.7);
-  color: #0d9488;
+  background: rgba(219, 234, 254, 0.7);
+  color: #2563eb;
   border: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transform: none;
@@ -126,12 +126,12 @@
 /* Dark Mode Icon Buttons - NO HOVER */
 .dark .inbox-page .icon-button,
 .dark .inbox-page .icon-button:hover {
-  background: rgba(153, 246, 228, 0.4) !important;
-  color: #0d9488 !important;
+  background: rgba(191, 219, 254, 0.4) !important;
+  color: #2563eb !important;
   border: none !important;
   box-shadow: none !important;
-  width: 56px !important;
-  height: 56px !important;
+  inline-size: 56px !important;
+  block-size: 56px !important;
   transform: none !important;
 }
 /* ==========================================
@@ -140,70 +140,70 @@
 
 /* Icon button background = avatar background */
 .inbox-page .icon-button {
-  background: #99f6e4 !important;
-  color: #115e59 !important;
+  background: #bfdbfe !important;
+  color: #1e40af !important;
 }
 
 .dark .inbox-page .icon-button {
-  background: #5eead4 !important;
-  color: #115e59 !important;
+  background: #60a5fa !important;
+  color: #1e40af !important;
 }
 
 /* SVG icons inside buttons */
 .inbox-page .icon-button svg {
-  color: #115e59 !important;
-  stroke: #115e59 !important;
+  color: #1e40af !important;
+  stroke: #1e40af !important;
 }
 
 .dark .inbox-page .icon-button svg {
-  color: #024f49 !important;
-  stroke: #024f49 !important;
+  color: #1e3a8a !important;
+  stroke: #1e3a8a !important;
 }
 
 /* ACTIVE STATE */
 .inbox-page .icon-button.active {
   background: #ffffff;
-  color: #0d9488;
+  color: #2563eb;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 2px solid #99f6e4;
+  border: 2px solid #bfdbfe;
 }
 
 .light .inbox-page .icon-button.active {
   background: #ffffff;
-  color: #0d9488;
+  color: #2563eb;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 2px solid #99f6e4;
+  border: 2px solid #bfdbfe;
 }
 
 .dark .inbox-page .icon-button.active {
-  background: rgba(153, 246, 228, 0.5) !important;
-  color: #0d9488 !important;
+  background: rgba(191, 219, 254, 0.5) !important;
+  color: #2563eb !important;
   box-shadow: none !important;
   border: none !important;
 }
 
 /* Icons styling */
 .inbox-page .icon-button svg {
-  color: #0d9488 !important;
-  stroke: #0d9488 !important;
+  color: #2563eb !important;
+  stroke: #2563eb !important;
   fill: none !important;
-  width: 24px;
-  height: 24px;
+  inline-size: 24px;
+  block-size: 24px;
 }
 
 .light .inbox-page .icon-button svg {
-  color: #0d9488 !important;
-  stroke: #0d9488 !important;
+  color: #2563eb !important;
+  stroke: #2563eb !important;
 }
 
 .dark .inbox-page .icon-button svg {
-  color: #01746a !important;
+  color: #1d4ed8 !important;
   stroke: #036d64 !important;
 }
 
 /* ICON CONTAINER */
 .inbox-page .icon-container {
-  width: 100%;
+  inline-size: 100%;
   display: flex;
   justify-content: center;
   position: relative;
@@ -212,18 +212,19 @@
 /* TOOLTIP */
 .inbox-page .icon-tooltip {
   position: absolute;
-  left: calc(100% + 12px);
-  top: 50%;
+  inset-inline-start: calc(100% + 12px);
+  inset-block-start: 50%;
   transform: translateY(-50%);
   background: #1f2937;
   color: #ffffff;
-  padding: 8px 12px;
+  padding-block: 8px;
+  padding-inline: 12px;
   border-radius: 8px;
   font-size: 13px;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .2s !important;
+  transition: opacity 0.2s !important;
   z-index: 100;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -243,32 +244,35 @@
 
 .inbox-page .contacts-sidebar {
   background: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  border-inline-end: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  block-size: 100%;
+  overflow-x: hidden !important;
+  min-inline-size: 0;
 }
 
 .light .inbox-page .contacts-sidebar {
   background: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  border-inline-end: 1px solid #e5e7eb;
 }
 
 .dark .inbox-page .contacts-sidebar {
   background: #1f2937;
-  border-right: 1px solid #374151;
+  border-inline-end: 1px solid #374151;
 }
 
 /* HEADER - Mint Green */
 .inbox-page .contacts-header {
   background: #1f2937;
   color: #ffffff;
-  min-height: 72px;
-  padding: 16px 20px;
+  min-block-size: 72px;
+  padding-block: 16px;
+  padding-inline: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #374151;
+  border-block-end: 1px solid #374151;
   font-size: 20px;
   font-weight: 600;
 }
@@ -276,14 +280,14 @@
 .light .inbox-page .contacts-header {
   background: #ffffff !important;
   color: #111827 !important;
-  border-bottom: 1px solid #e5e7eb;
+  border-block-end: 1px solid #e5e7eb;
 }
 
 /* Dark mode header styling */
 .dark .inbox-page .contacts-header {
   background: #1f2937 !important;
   color: #ffffff !important;
-  border-bottom: 1px solid #374151;
+  border-block-end: 1px solid #374151;
 }
 
 /* Ensure Inbox text and menu dots match the white background in light mode */
@@ -307,21 +311,25 @@
 .inbox-page .contact-item:hover,
 .inbox-page .contact-item:focus,
 .inbox-page .contact-item:active {
-  border-bottom: 1px solid #f3f4f6;
+  border-block-end: 1px solid #f3f4f6;
   color: #111827;
-  padding: 16px 20px;
+  padding-block: 16px;
+  padding-inline: 20px;
   cursor: pointer;
   background: transparent !important;
   transition: none !important;
   transform: none !important;
   box-shadow: none !important;
+  overflow: hidden !important;
+  min-inline-size: 0;
+  max-inline-size: 100%;
 }
 
 .light .inbox-page .contact-item,
 .light .inbox-page .contact-item:hover,
 .light .inbox-page .contact-item:focus,
 .light .inbox-page .contact-item:active {
-  border-bottom: 1px solid #f3f4f6 !important;
+  border-block-end: 1px solid #f3f4f6 !important;
   background: transparent !important;
 }
 
@@ -329,7 +337,7 @@
 .dark .inbox-page .contact-item:hover,
 .dark .inbox-page .contact-item:focus,
 .dark .inbox-page .contact-item:active {
-  border-bottom: 1px solid rgba(55, 65, 81, 0.3) !important;
+  border-block-end: 1px solid rgba(55, 65, 81, 0.3) !important;
   background: transparent !important;
 }
 
@@ -349,20 +357,20 @@
 
 /* Selected state only */
 .inbox-page .contact-item.selected {
-  background: #e0f9f4 !important;
-  border-left: 4px solid #99f6e4;
+  background: #eff6ff !important;
+  border-inline-start: 4px solid #bfdbfe;
 }
 
 .light .inbox-page .contact-item.selected {
-  background: #e0f9f4 !important;
-  border-left: 4px solid #99f6e4 !important;
-  border-bottom: 1px solid #f3f4f6 !important;
+  background: #eff6ff !important;
+  border-inline-start: 4px solid #bfdbfe !important;
+  border-block-end: 1px solid #f3f4f6 !important;
 }
 
 .dark .inbox-page .contact-item.selected {
-  background: #e0f9f4 !important;
-  border-left: 4px solid #5eead4 !important;
-  border-bottom: 1px solid rgba(55, 65, 81, 0.3) !important;
+  background: #eff6ff !important;
+  border-inline-start: 4px solid #60a5fa !important;
+  border-block-end: 1px solid rgba(55, 65, 81, 0.3) !important;
 }
 
 /* Selected contact text visibility fix */
@@ -375,17 +383,16 @@
   color: #374151 !important;
 }
 
-
 /* AVATARS */
 .inbox-page .contact-avatar {
-  background: #99f6e4 !important;
-  color: #115e59 !important;
+  background: #bfdbfe !important;
+  color: #1e40af !important;
   font-weight: 600 !important;
   font-size: 16px !important;
-  width: 52px !important;
-  height: 52px !important;
-  min-width: 52px !important;
-  min-height: 52px !important;
+  inline-size: 52px !important;
+  block-size: 52px !important;
+  min-inline-size: 52px !important;
+  min-block-size: 52px !important;
   border-radius: 50% !important;
   display: flex !important;
   align-items: center !important;
@@ -394,14 +401,14 @@
 }
 
 .light .inbox-page .contact-avatar {
-  background: #99f6e4 !important;
-  color: #115e59 !important;
+  background: #bfdbfe !important;
+  color: #1e40af !important;
   font-weight: 600 !important;
 }
 
 .dark .inbox-page .contact-avatar {
-  background: #5eead4 !important;
-  color: #115e59 !important;
+  background: #60a5fa !important;
+  color: #1e40af !important;
   font-weight: 600 !important;
 }
 
@@ -419,14 +426,14 @@
 /* Contact item avatars specifically */
 .inbox-page .contact-item .contact-avatar,
 .inbox-page .contact-item .w-12.h-12.rounded-full {
-  background: #99f6e4 !important;
-  color: #115e59 !important;
+  background: #bfdbfe !important;
+  color: #1e40af !important;
   font-weight: 600 !important;
   border-radius: 50% !important;
-  width: 52px !important;
-  height: 52px !important;
-  min-width: 52px !important;
-  min-height: 52px !important;
+  inline-size: 52px !important;
+  block-size: 52px !important;
+  min-inline-size: 52px !important;
+  min-block-size: 52px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -435,35 +442,35 @@
 
 .light .inbox-page .contact-item .contact-avatar,
 .light .inbox-page .contact-item .w-12.h-12.rounded-full {
-  background: #99f6e4 !important;
-  color: #115e59 !important;
+  background: #bfdbfe !important;
+  color: #1e40af !important;
 }
 
 .dark .inbox-page .contact-item .contact-avatar,
 .dark .inbox-page .contact-item .w-12.h-12.rounded-full {
-  background: #5eead4 !important;
-  color: #115e59 !important;
+  background: #60a5fa !important;
+  color: #1e40af !important;
 }
 
 /* BADGE */
 .inbox-page .unread-badge {
-  background: #99f6e4;
-  color: #115e59;
+  background: #bfdbfe;
+  color: #1e40af;
   font-weight: 600;
-  min-width: 22px;
-  height: 22px;
+  min-inline-size: 22px;
+  block-size: 22px;
   font-size: 12px;
 }
 
 .light .inbox-page .unread-badge {
-  background: #99f6e4;
-  color: #115e59;
+  background: #bfdbfe;
+  color: #1e40af;
   font-weight: 600;
 }
 
 .dark .inbox-page .unread-badge {
-  background: #5eead4;
-  color: #115e59;
+  background: #60a5fa;
+  color: #1e40af;
   font-weight: 600;
 }
 
@@ -475,8 +482,8 @@
   background: #eef7f6;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 0; /* allow flex child to shrink so messages area can scroll */
+  block-size: 100%;
+  min-block-size: 0; /* allow flex child to shrink so messages area can scroll */
 }
 
 .light .inbox-page .chat-area {
@@ -503,9 +510,10 @@
 /* Chat Header - White/Clean */
 .inbox-page .chat-area .contacts-header {
   background: #ffffff !important;
-  border-bottom: 1px solid #e5e7eb;
-  min-height: 72px;
-  padding: 16px 20px;
+  border-block-end: 1px solid #e5e7eb;
+  min-block-size: 72px;
+  padding-block: 16px;
+  padding-inline: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -514,13 +522,13 @@
 
 .light .inbox-page .chat-area .contacts-header {
   background: #ffffff !important;
-  border-bottom: 1px solid #e5e7eb !important;
+  border-block-end: 1px solid #e5e7eb !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
 .dark .inbox-page .chat-area .contacts-header {
   background: #1f2937 !important;
-  border-bottom: none !important;
+  border-block-end: none !important;
   box-shadow: none !important;
   color: #f3f4f6 !important;
 }
@@ -541,15 +549,15 @@
 
 .inbox-page .chat-area .contacts-header .rounded-full,
 .inbox-page .chat-area .contacts-header .w-10.h-10 {
-  background: #99f6e4 !important;
-  color: #115e59 !important;
+  background: #bfdbfe !important;
+  color: #1e40af !important;
   font-weight: 600 !important;
 }
 
 .dark .inbox-page .chat-area .contacts-header .rounded-full,
 .dark .inbox-page .chat-area .contacts-header .w-10.h-10 {
-  background: #5eead4 !important;
-  color: #115e59 !important;
+  background: #60a5fa !important;
+  color: #1e40af !important;
 }
 
 /* Contact Name in Header */
@@ -571,22 +579,22 @@
 /* Online Status */
 .inbox-page .chat-area .contacts-header .text-xs {
   font-size: 14px;
-  color: #14b8a6 !important;
+  color: #3b82f6 !important;
   font-weight: 400;
 }
 
 .light .inbox-page .chat-area .contacts-header .text-xs {
-  color: #14b8a6 !important;
+  color: #3b82f6 !important;
 }
 
 /* Typing indicator */
-.inbox-page .chat-area .contacts-header .text-emerald-200 {
-  color: #14b8a6 !important;
+.inbox-page .chat-area .contacts-header .text-blue-200 {
+  color: #3b82f6 !important;
   font-weight: 400;
 }
 
-.light .inbox-page .chat-area .contacts-header .text-emerald-200 {
-  color: #14b8a6 !important;
+.light .inbox-page .chat-area .contacts-header .text-blue-200 {
+  color: #3b82f6 !important;
 }
 
 /* ===============================
@@ -604,8 +612,10 @@
 /* Date grouping badge (Today, Yesterday, date) */
 .inbox-page .chat-date-badge {
   align-self: center;
-  padding: 6px 12px;
-  margin: 8px 0;
+  padding-block: 6px;
+  padding-inline: 12px;
+  margin-block: 8px;
+  margin-inline: 0;
   font-size: 12px;
   font-weight: 500;
   color: #666;
@@ -621,7 +631,7 @@
 /* Message wrapper */
 .inbox-page .message {
   display: flex;
-  margin-bottom: 0;
+  margin-block-end: 0;
 }
 
 .inbox-page .message.incoming {
@@ -634,9 +644,10 @@
 
 /* Bubble */
 .inbox-page .bubble {
-  max-width: 85%;
-  min-width: 0;
-  padding: 12px 14px;
+  max-inline-size: 85%;
+  min-inline-size: 0;
+  padding-block: 12px;
+  padding-inline: 14px;
   border-radius: 14px;
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -646,13 +657,13 @@
 /* Incoming */
 .inbox-page .message.incoming .bubble {
   background: #ffffff;
-  border-top-left-radius: 4px;
+  border-start-start-radius: 4px;
 }
 
 /* Outgoing */
 .inbox-page .message.outgoing .bubble {
-  background: #d9f5f1;
-  border-top-right-radius: 4px;
+  background: #dbeafe;
+  border-start-end-radius: 4px;
 }
 
 /* Failed message tint */
@@ -663,17 +674,17 @@
 /* Template sections */
 .inbox-page .template-header {
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-block-end: 6px;
   overflow: hidden;
 }
 
 /* Constrain template header images to fit chat bubble */
 .inbox-page .template-header-image {
   display: block;
-  max-width: 280px;
-  max-height: 200px;
-  width: 100%;
-  height: auto;
+  max-inline-size: 280px;
+  max-block-size: 200px;
+  inline-size: 100%;
+  block-size: auto;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -694,7 +705,7 @@
 .inbox-page .template-footer {
   font-size: 12px;
   color: #777;
-  margin-top: 6px;
+  margin-block-start: 6px;
 }
 
 /* Template button */
@@ -704,7 +715,7 @@
   justify-content: center;
   gap: 6px;
   text-align: center;
-  margin-top: 10px;
+  margin-block-start: 10px;
   padding: 8px;
   border-radius: 8px;
   background: #e6f0ff;
@@ -720,7 +731,7 @@
 
 /* Error block */
 .inbox-page .error-box {
-  margin-top: 10px;
+  margin-block-start: 10px;
   padding: 10px;
   border-radius: 8px;
   background: #fdecea;
@@ -736,7 +747,7 @@
   gap: 6px;
   font-size: 11px;
   color: #666;
-  margin-top: 8px;
+  margin-block-start: 8px;
 }
 
 .inbox-page .meta.error {
@@ -773,7 +784,7 @@
 }
 
 .dark .inbox-page .message.outgoing .bubble {
-  background: #0d9488;
+  background: #2563eb;
 }
 
 .dark .inbox-page .message.failed .bubble {
@@ -798,8 +809,7 @@
 /* Filter chips (top row) */
 .inbox-page .filter-chips button {
   border: 1px solid transparent;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-inline: 10px;
 }
 
 .inbox-page .filter-chips button {
@@ -813,12 +823,12 @@
 
 /* Filter dropdown styles */
 .inbox-page .filter-dropdown {
-  min-width: 260px;
+  min-inline-size: 260px;
 }
 
 .inbox-page .filter-dropdown .w-8.h-8 {
-  min-width: 32px;
-  min-height: 32px;
+  min-inline-size: 32px;
+  min-block-size: 32px;
 }
 
 .inbox-page .filter-dropdown button {
@@ -826,10 +836,10 @@
 }
 
 .inbox-page .filter-dropdown::-webkit-scrollbar {
-  width: 8px;
+  inline-size: 8px;
 }
 .inbox-page .filter-dropdown::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.12);
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 999px;
 }
 
@@ -842,12 +852,13 @@
 =================================*/
 
 /* Search input in contacts sidebar - NO HOVER */
-.inbox-page .contacts-sidebar input[type="text"],
-.inbox-page .contacts-sidebar input[placeholder*="Search"] {
-  background: #e8fdf8 !important;
-  border: 1px solid rgba(20, 184, 166, 0.3) !important;
+.inbox-page .contacts-sidebar input[type='text'],
+.inbox-page .contacts-sidebar input[placeholder*='Search'] {
+  background: #eff6ff !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
   color: #111827 !important;
-  padding: 12px 16px !important;
+  padding-block: 12px !important;
+  padding-inline: 16px !important;
   border-radius: 8px !important;
   font-size: 14px !important;
 }
@@ -858,70 +869,72 @@
 }
 
 .inbox-page .contacts-sidebar .search-wrap .search-icon {
-  left: 14px;
+  inset-inline-start: 14px;
   z-index: 2;
 }
 
 .inbox-page .contacts-sidebar input.search-input {
-  height: 44px !important;
+  block-size: 44px !important;
   line-height: 1.2 !important;
-  padding: 10px 12px 10px 44px !important;
+  padding-block: 10px !important;
+  padding-inline: 44px 12px !important;
   font-size: 14px !important;
 }
 
 .light .inbox-page .contacts-sidebar input.search-input,
 .dark .inbox-page .contacts-sidebar input.search-input {
-  padding: 10px 12px 10px 44px !important;
+  padding-block: 10px !important;
+  padding-inline: 44px 12px !important;
 }
 
-.light .inbox-page .contacts-sidebar input[type="text"],
-.light .inbox-page .contacts-sidebar input[placeholder*="Search"] {
-  background: #e8fdf8 !important;
-  border: 1px solid rgba(20, 184, 166, 0.3) !important;
+.light .inbox-page .contacts-sidebar input[type='text'],
+.light .inbox-page .contacts-sidebar input[placeholder*='Search'] {
+  background: #eff6ff !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
   color: #111827 !important;
 }
 
-.dark .inbox-page .contacts-sidebar input[type="text"],
-.dark .inbox-page .contacts-sidebar input[placeholder*="Search"] {
+.dark .inbox-page .contacts-sidebar input[type='text'],
+.dark .inbox-page .contacts-sidebar input[placeholder*='Search'] {
   background: #374151 !important;
-  border: 1px solid rgba(153, 246, 228, 0.2) !important;
+  border: 1px solid rgba(191, 219, 254, 0.2) !important;
   color: #f3f4f6 !important;
 }
 
-.inbox-page .contacts-sidebar input[type="text"]:focus,
-.inbox-page .contacts-sidebar input[placeholder*="Search"]:focus {
-  border-color: #14b8a6 !important;
+.inbox-page .contacts-sidebar input[type='text']:focus,
+.inbox-page .contacts-sidebar input[placeholder*='Search']:focus {
+  border-color: #3b82f6 !important;
   outline: none !important;
   background: #ffffff !important;
-  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
 
-.light .inbox-page .contacts-sidebar input[type="text"]:focus,
-.light .inbox-page .contacts-sidebar input[placeholder*="Search"]:focus {
+.light .inbox-page .contacts-sidebar input[type='text']:focus,
+.light .inbox-page .contacts-sidebar input[placeholder*='Search']:focus {
   background: #ffffff !important;
-  border-color: #14b8a6 !important;
-  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
 
-.dark .inbox-page .contacts-sidebar input[type="text"]:focus,
-.dark .inbox-page .contacts-sidebar input[placeholder*="Search"]:focus {
+.dark .inbox-page .contacts-sidebar input[type='text']:focus,
+.dark .inbox-page .contacts-sidebar input[placeholder*='Search']:focus {
   background: #1f2937 !important;
-  border-color: #5eead4 !important;
+  border-color: #60a5fa !important;
   box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.1) !important;
 }
 
-.inbox-page .contacts-sidebar input[type="text"]::placeholder,
-.inbox-page .contacts-sidebar input[placeholder*="Search"]::placeholder {
+.inbox-page .contacts-sidebar input[type='text']::placeholder,
+.inbox-page .contacts-sidebar input[placeholder*='Search']::placeholder {
   color: #9ca3af !important;
 }
 
-.light .inbox-page .contacts-sidebar input[type="text"]::placeholder,
-.light .inbox-page .contacts-sidebar input[placeholder*="Search"]::placeholder {
+.light .inbox-page .contacts-sidebar input[type='text']::placeholder,
+.light .inbox-page .contacts-sidebar input[placeholder*='Search']::placeholder {
   color: #9ca3af !important;
 }
 
-.dark .inbox-page .contacts-sidebar input[type="text"]::placeholder,
-.dark .inbox-page .contacts-sidebar input[placeholder*="Search"]::placeholder {
+.dark .inbox-page .contacts-sidebar input[type='text']::placeholder,
+.dark .inbox-page .contacts-sidebar input[placeholder*='Search']::placeholder {
   color: #9ca3af !important;
 }
 
@@ -930,31 +943,34 @@
 =================================*/
 
 .inbox-page .message-input {
-  background: #e8fdf8 !important;
-  border: 2px solid #14b8a6 !important;
+  background: #eff6ff !important;
+  border: 2px solid #3b82f6 !important;
   color: #111827 !important;
-  caret-color: #14b8a6 !important;
+  caret-color: #3b82f6 !important;
   font-size: 15px !important;
-  padding: 12px 16px !important;
+  padding-block: 12px !important;
+  padding-inline: 16px !important;
   border-radius: 8px !important;
 }
 
 .light .inbox-page .message-input {
-  background: #e8fdf8 !important;
-  border: 2px solid #14b8a6 !important;
+  background: #eff6ff !important;
+  border: 2px solid #3b82f6 !important;
   color: #111827 !important;
-  caret-color: #14b8a6 !important;
+  caret-color: #3b82f6 !important;
   font-size: 15px !important;
-  padding: 12px 16px !important;
+  padding-block: 12px !important;
+  padding-inline: 16px !important;
 }
 
 .dark .inbox-page .message-input {
   background: #374151 !important;
-  border: 2px solid #5eead4 !important;
+  border: 2px solid #60a5fa !important;
   color: #f3f4f6 !important;
-  caret-color: #5eead4 !important;
+  caret-color: #60a5fa !important;
   font-size: 15px !important;
-  padding: 12px 16px !important;
+  padding-block: 12px !important;
+  padding-inline: 16px !important;
 }
 
 .inbox-page .message-input::placeholder {
@@ -972,7 +988,7 @@
 
 .inbox-page .message-input:focus {
   outline: none !important;
-  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
 
 .dark .inbox-page .message-input:focus {
@@ -983,18 +999,19 @@
 /* Input Container */
 .inbox-page .relative.w-full.px-5.py-4 {
   background: #ffffff;
-  border-top: 1px solid #e5e7eb;
-  padding: 16px 20px;
+  border-block-start: 1px solid #e5e7eb;
+  padding-block: 16px;
+  padding-inline: 20px;
 }
 
 .light .inbox-page .relative.w-full.px-5.py-4 {
   background: #ffffff;
-  border-top: 1px solid #e5e7eb;
+  border-block-start: 1px solid #e5e7eb;
 }
 
 .dark .inbox-page .relative.w-full.px-5.py-4 {
   background: #1f2937;
-  border-top: 1px solid #374151;
+  border-block-start: 1px solid #374151;
 }
 
 /* Input Bar Styling */
@@ -1021,34 +1038,34 @@
 
 .inbox-page .btn-primary,
 .inbox-page .btn-primary:hover {
-  background: #14b8a6;
+  background: #3b82f6;
   color: #ffffff;
   transition: none !important;
 }
 
 /* Send Button - Teal Circle - NO HOVER */
-.inbox-page .bg-emerald-600,
-.inbox-page .bg-emerald-500,
-.inbox-page .bg-emerald-600:hover,
-.inbox-page .bg-emerald-500:hover {
-  background: #14b8a6 !important;
+.inbox-page .bg-blue-600,
+.inbox-page .bg-blue-500,
+.inbox-page .bg-blue-600:hover,
+.inbox-page .bg-blue-500:hover {
+  background: #3b82f6 !important;
 }
 
 /* Icon Colors */
-.inbox-page .text-emerald-600,
-.inbox-page .text-emerald-700 {
-  color: #14b8a6 !important;
+.inbox-page .text-blue-600,
+.inbox-page .text-blue-700 {
+  color: #3b82f6 !important;
 }
 
 /* Border Colors */
-.inbox-page .border-emerald-500,
-.inbox-page .border-emerald-300 {
-  border-color: #14b8a6 !important;
+.inbox-page .border-blue-500,
+.inbox-page .border-blue-300 {
+  border-color: #3b82f6 !important;
 }
 
-.light .inbox-page .border-emerald-500,
-.light .inbox-page .border-emerald-300 {
-  border-color: #14b8a6 !important;
+.light .inbox-page .border-blue-500,
+.light .inbox-page .border-blue-300 {
+  border-color: #3b82f6 !important;
 }
 
 /* Action Icons in Chat Header - NO HOVER */
@@ -1087,7 +1104,8 @@
 
 .inbox-page .dropdown-item,
 .inbox-page .dropdown-item:hover {
-  padding: 10px 16px;
+  padding-block: 10px;
+  padding-inline: 16px;
   color: #111827;
   cursor: pointer;
   border-radius: 6px !important;
@@ -1136,7 +1154,8 @@
 .inbox-page .attach-menu button:hover {
   color: #111827;
   border-radius: 8px !important;
-  padding: 10px 12px;
+  padding-block: 10px;
+  padding-inline: 12px;
   font-size: 14px;
   background: transparent;
 }
@@ -1157,15 +1176,15 @@
    FILE/AUDIO PREVIEW
 =================================*/
 
-.inbox-page .bg-emerald-50 {
-  background: #e0f9f4 !important;
-  border-color: #99f6e4 !important;
+.inbox-page .bg-blue-50 {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
   border-radius: 8px !important;
 }
 
-.light .inbox-page .bg-emerald-50 {
-  background: #e0f9f4 !important;
-  border-color: #99f6e4 !important;
+.light .inbox-page .bg-blue-50 {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
 }
 
 /* ===============================
@@ -1173,16 +1192,16 @@
 =================================*/
 
 .inbox-page ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  inline-size: 8px;
+  block-size: 8px;
 }
 
 .inbox-page ::-webkit-scrollbar-track {
-  background: #f0fdf4;
+  background: #f3f4f6;
 }
 
 .light .inbox-page ::-webkit-scrollbar-track {
-  background: #f0fdf4;
+  background: #f3f4f6;
 }
 
 .dark .inbox-page ::-webkit-scrollbar-track {
@@ -1190,30 +1209,30 @@
 }
 
 .inbox-page ::-webkit-scrollbar-thumb {
-  background: #10b981;
+  background: #3b82f6;
   border-radius: 10px;
 }
 
 .light .inbox-page ::-webkit-scrollbar-thumb {
-  background: #10b981;
+  background: #3b82f6;
   border-radius: 10px;
 }
 
 .dark .inbox-page ::-webkit-scrollbar-thumb {
-  background: #14b8a6;
+  background: #3b82f6;
   border-radius: 10px;
 }
 
 .inbox-page ::-webkit-scrollbar-thumb:hover {
-  background: #059669;
+  background: #2563eb;
 }
 
 .light .inbox-page ::-webkit-scrollbar-thumb:hover {
-  background: #059669;
+  background: #2563eb;
 }
 
 .dark .inbox-page ::-webkit-scrollbar-thumb:hover {
-  background: #0d9488;
+  background: #2563eb;
 }
 
 /* ===============================
@@ -1221,19 +1240,19 @@
 =================================*/
 
 @keyframes fadeInUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(6px); 
+  from {
+    opacity: 0;
+    transform: translateY(6px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .inbox-page .contact-item,
 .inbox-page .message .bubble {
-  animation: fadeInUp .18s ease-out;
+  animation: fadeInUp 0.18s ease-out;
 }
 
 /* ===============================
@@ -1283,13 +1302,13 @@
   .inbox-page .icon-sidebar {
     display: none;
   }
-  
+
   .inbox-page .contacts-sidebar {
-    border-right: none;
+    border-inline-end: none;
   }
-  
+
   .inbox-page .chat-area {
-    border-left: none;
+    border-inline-start: none;
   }
 }
 
@@ -1297,37 +1316,37 @@
    UTILITY OVERRIDES - NO HOVER
 =================================*/
 
-.inbox-page .bg-emerald-600,
-.inbox-page .bg-emerald-700,
-.inbox-page .bg-emerald-500 {
-  background: #99f6e4 !important;
+.inbox-page .bg-blue-600,
+.inbox-page .bg-blue-700,
+.inbox-page .bg-blue-500 {
+  background: #bfdbfe !important;
 }
 
-.inbox-page .hover\:bg-emerald-700:hover,
-.inbox-page .hover\:bg-emerald-500:hover,
-.inbox-page .hover\:bg-emerald-600:hover {
-  background: #99f6e4 !important;
+.inbox-page .hover\:bg-blue-700:hover,
+.inbox-page .hover\:bg-blue-500:hover,
+.inbox-page .hover\:bg-blue-600:hover {
+  background: #bfdbfe !important;
 }
 
-.inbox-page .focus\:ring-emerald-500:focus,
-.inbox-page .ring-emerald-500 {
-  --tw-ring-color: #99f6e4 !important;
+.inbox-page .focus\:ring-blue-500:focus,
+.inbox-page .ring-blue-500 {
+  --tw-ring-color: #bfdbfe !important;
 }
 
-.inbox-page .text-emerald-200,
-.inbox-page .text-emerald-300,
-.inbox-page .text-emerald-400,
-.inbox-page .text-emerald-500,
-.inbox-page .text-emerald-600 {
-  color: #14b8a6 !important;
+.inbox-page .text-blue-200,
+.inbox-page .text-blue-300,
+.inbox-page .text-blue-400,
+.inbox-page .text-blue-500,
+.inbox-page .text-blue-600 {
+  color: #3b82f6 !important;
 }
 
-.inbox-page .border-emerald-200,
-.inbox-page .border-emerald-300,
-.inbox-page .border-emerald-400,
-.inbox-page .border-emerald-500,
-.inbox-page .border-emerald-600 {
-  border-color: #99f6e4 !important;
+.inbox-page .border-blue-200,
+.inbox-page .border-blue-300,
+.inbox-page .border-blue-400,
+.inbox-page .border-blue-500,
+.inbox-page .border-blue-600 {
+  border-color: #bfdbfe !important;
 }
 
 /* Force no background changes on hover for contacts */
@@ -1343,15 +1362,15 @@
 
 /* Only selected state gets background */
 .inbox-page .contact-item.selected {
-  background: #e0f9f4 !important;
+  background: #eff6ff !important;
 }
 
 .light .inbox-page .contact-item.selected {
-  background: #e0f9f4 !important;
+  background: #eff6ff !important;
 }
 
 .dark .inbox-page .contact-item.selected {
-  background: #e0f9f4 !important;
+  background: #eff6ff !important;
 }
 
 /* Selected contact text visibility fix */
@@ -1363,7 +1382,6 @@
 .dark .inbox-page .contact-item.selected .text-gray-500 {
   color: #374151 !important;
 }
-
 
 /* Clean, professional spacing */
 .inbox-page .contact-item .font-semibold {

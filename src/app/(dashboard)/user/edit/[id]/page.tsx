@@ -24,7 +24,7 @@ export default function EditUserPage() {
         const fetchUser = async () => {
             try {
                 setLoading(true);
-                const response = await api.get(`/users/${params.id}`);
+                const response = await api.get(`/admin/users/${params.id}`);
                 const userData = response.data || response;
                 if (userData) {
                     setFormData({

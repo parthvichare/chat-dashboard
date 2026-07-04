@@ -10,7 +10,7 @@ export default function AuthLayout({
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center text-center">
           <Image
-            src="/images/logo/logo.jpeg"
+            src="/images/logo/chotu-logo.jpeg"
             alt="Surefy Logo"
             width={80}
             height={80}

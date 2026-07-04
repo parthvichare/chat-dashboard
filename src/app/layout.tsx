@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Chotu',
   description: 'WhatsApp Business API Management',
   icons: {
-    icon: '/images/logo/logo.jpeg',
+    icon: '/images/logo/chotu-logo.jpeg',
   },
 };
 

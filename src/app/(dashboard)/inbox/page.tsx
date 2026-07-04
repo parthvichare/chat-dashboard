@@ -1934,7 +1934,7 @@ export default function InboxPage() {
               {showInboxMenu && (
                 <div
                   ref={inboxMenuRef}
-                  className="dropdown-menu absolute top-0 left-full ml-1 w-64 bg-white dark:bg-gray-800 border border-blue-600 dark:border-blue-700 rounded-lg shadow-lg z-50 p-3 space-y-2"
+                  className="dropdown-menu absolute top-full right-0 mt-1 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-[100] p-3 space-y-2"
                 >
                   {/* Unread Row */}
                   <div
@@ -1946,7 +1946,7 @@ export default function InboxPage() {
                           : "unreadTime",
                       )
                     }
-                    className="dropdown-item text-sm font-normal text-blue-600 dark:text-blue-400 px-2 py-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-700 dark:hover:text-white rounded"
+                    className="dropdown-item text-sm font-normal text-blue-600 px-2 py-1 cursor-pointer hover:bg-blue-50 rounded"
                   >
                     Unread
                   </div>
@@ -1955,7 +1955,7 @@ export default function InboxPage() {
                   {activeSubMenu === "unreadTime" && unreadRef.current && (
                     <>
                       <div
-                        className="absolute z-50 bg-white dark:bg-gray-800 border border-blue-600 dark:border-blue-700 rounded shadow-lg p-3 w-48 space-y-2"
+                        className="absolute z-50 bg-white border border-blue-200 rounded shadow-lg p-3 w-48 space-y-2"
                         style={{
                           top: unreadRef.current?.offsetTop,
                           left:
@@ -1970,14 +1970,14 @@ export default function InboxPage() {
                             setShowDatePicker(!showDatePicker);
                             setShowTimeRange(false);
                           }}
-                          className="dropdown-item text-sm font-normal text-blue-600 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-700 rounded"
+                          className="dropdown-item text-sm font-normal text-blue-600 cursor-pointer hover:bg-blue-50 rounded"
                         >
                           Date
                         </div>
 
                         {showDatePicker && dateRef.current && (
                           <div
-                            className="absolute z-50 bg-white dark:bg-gray-800 border border-blue-600 dark:border-blue-700 rounded shadow-lg p-3 w-56"
+                            className="absolute z-50 bg-white border border-blue-200 rounded shadow-lg p-3 w-56"
                             style={{
                               top: (dateRef.current?.offsetTop ?? 0) + 5,
                               left:
@@ -1988,7 +1988,7 @@ export default function InboxPage() {
                           >
                             <input
                               type="date"
-                              className="w-full px-2 py-2 text-sm border border-blue-600 dark:border-blue-700 rounded bg-white dark:bg-gray-700 cursor-pointer"
+                              className="w-full px-2 py-2 text-sm border border-blue-200 rounded bg-white cursor-pointer"
                             />
                           </div>
                         )}
@@ -1999,7 +1999,7 @@ export default function InboxPage() {
                             setShowTimeRange(!showTimeRange);
                             setShowDatePicker(false);
                           }}
-                          className="dropdown-item text-sm font-normal text-blue-600 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-700 rounded"
+                          className="dropdown-item text-sm font-normal text-blue-600 cursor-pointer hover:bg-blue-50 rounded"
                         >
                           Time
                         </div>
@@ -2014,7 +2014,7 @@ export default function InboxPage() {
                         ].map((label) => (
                           <div
                             key={label}
-                            className="dropdown-item text-sm font-normal text-blue-600 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-700 rounded"
+                            className="dropdown-item text-sm font-normal text-blue-600 cursor-pointer hover:bg-blue-50 rounded"
                           >
                             {label}
                           </div>
@@ -2023,7 +2023,7 @@ export default function InboxPage() {
 
                       {showTimeRange && timeRef.current && (
                         <div
-                          className="absolute z-50 bg-white dark:bg-gray-800 border border-blue-600 dark:border-blue-700 rounded shadow-lg p-3 w-62.5 min-w-62.5"
+                          className="absolute z-50 bg-white border border-blue-200 rounded shadow-lg p-3"
                           style={{
                             top: timeRef.current?.offsetTop || 0,
                             left:
@@ -2034,7 +2034,7 @@ export default function InboxPage() {
                           }}
                         >
                           <div className="flex items-center justify-between gap-1 mb-2">
-                            <select className="w-25 px-1 py-1 text-xs border border-blue-600 dark:border-blue-700 rounded bg-white dark:bg-gray-700 dark:text-white">
+                            <select className="w-25 px-1 py-1 text-xs border border-blue-200 rounded bg-white text-gray-800">
                               {[...Array(12)]
                                 .map((_, i) =>
                                   i === 0 ? "12:00" : `${i}:00`,
@@ -2043,7 +2043,7 @@ export default function InboxPage() {
                                   <option key={time}>{time}</option>
                                 ))}
                             </select>
-                            <select className="w-26.25 px-1 py-1 text-xs border border-blue-600 dark:border-blue-700 rounded bg-white text-black dark:bg-gray-700 dark:text-white">
+                            <select className="w-26.25 px-1 py-1 text-xs border border-blue-200 rounded bg-white text-gray-800">
                               {["AM", "PM"].map((meridian) => (
                                 <option key={meridian}>{meridian}</option>
                               ))}
@@ -2051,7 +2051,7 @@ export default function InboxPage() {
                           </div>
 
                           <div className="flex items-center justify-between gap-1">
-                            <select className="w-25 px-1 py-1 text-xs border border-blue-600 dark:border-blue-700 rounded bg-white dark:bg-gray-700 dark:text-white">
+                            <select className="w-25 px-1 py-1 text-xs border border-blue-200 rounded bg-white text-gray-800">
                               {[...Array(12)]
                                 .map((_, i) =>
                                   i === 0 ? "12:00" : `${i}:00`,
@@ -2060,7 +2060,7 @@ export default function InboxPage() {
                                   <option key={time}>{time}</option>
                                 ))}
                             </select>
-                            <select className="w-26.25 px-1 py-1 text-xs border border-blue-600 dark:border-blue-700 rounded bg-white text-black dark:bg-gray-700 dark:text-white">
+                            <select className="w-26.25 px-1 py-1 text-xs border border-blue-200 rounded bg-white text-gray-800">
                               {["AM", "PM"].map((meridian) => (
                                 <option key={meridian}>{meridian}</option>
                               ))}
@@ -2080,13 +2080,13 @@ export default function InboxPage() {
                         setActiveSubMenu(null);
                         setShowInboxMenu(false);
                       }}
-                      className="dropdown-item w-full text-left text-sm font-normal text-blue-600 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-700 rounded"
+                      className="dropdown-item w-full text-left text-sm font-normal text-blue-600 cursor-pointer hover:bg-blue-50 rounded"
                     >
                       {label}
                     </button>
                   ))}
 
-                  <div className="border-t border-blue-600 dark:border-blue-700 my-2" />
+                  <div className="border-t border-gray-100 my-2" />
 
                   <div className="space-y-2">
                     <div
@@ -2098,7 +2098,7 @@ export default function InboxPage() {
                             : "assignedTo",
                         )
                       }
-                      className="dropdown-item text-sm font-normal text-blue-600 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-700 rounded"
+                      className="dropdown-item text-sm font-normal text-blue-600 cursor-pointer hover:bg-blue-50 rounded"
                     >
                       Assigned to
                     </div>
@@ -2118,7 +2118,7 @@ export default function InboxPage() {
                           <input
                             type="text"
                             placeholder="demo"
-                            className="w-48 px-3 py-2 text-sm border border-blue-600 dark:border-blue-700 rounded bg-white dark:hover:bg-blue-700 shadow-sm"
+                            className="w-48 px-3 py-2 text-sm border border-blue-200 rounded bg-white text-gray-800 shadow-sm"
                           />
                         </div>
                       )}
@@ -2132,7 +2132,7 @@ export default function InboxPage() {
                             : "phoneNumbers",
                         )
                       }
-                      className="dropdown-item text-sm font-normal text-blue-600 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-700 rounded"
+                      className="dropdown-item text-sm font-normal text-blue-600 cursor-pointer hover:bg-blue-50 rounded"
                     >
                       Phone number
                     </div>
@@ -2152,7 +2152,7 @@ export default function InboxPage() {
                           <input
                             type="text"
                             placeholder="number"
-                            className="w-48 px-3 py-2 text-sm border border-blue-600 dark:border-blue-700 rounded bg-white dark:bg-gray-700 shadow-sm"
+                            className="w-48 px-3 py-2 text-sm border border-blue-200 rounded bg-white text-gray-800 shadow-sm"
                           />
                         </div>
                       )}
@@ -2204,8 +2204,8 @@ export default function InboxPage() {
 
               {/* Filter dropdown */}
               {showFilterMenu && (
-                <div className="filter-dropdown absolute top-1/2 left-full ml-2 -translate-y-1/2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 p-3">
-                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-100 mb-2">Filter Conversations</div>
+                <div className="filter-dropdown absolute top-full right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-[100] p-3">
+                  <div className="text-sm font-semibold text-gray-700 mb-2">Filter Conversations</div>
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 text-blue-600">
                       <input type="checkbox" className="rounded" />
@@ -2221,9 +2221,9 @@ export default function InboxPage() {
                     </label>
                   </div>
 
-                  <div className="border-t border-gray-100 dark:border-gray-700 my-3" />
+                  <div className="border-t border-gray-100 my-3" />
 
-                  <div className="text-sm font-medium text-gray-700 dark:text-gray-100 mb-2">Select Phone Number</div>
+                  <div className="text-sm font-medium text-gray-700 mb-2">Select Phone Number</div>
                   <div className="space-y-1 max-h-48 overflow-auto">
                     {phoneNumbers.map((pn: any) => {
                       const id = String(pn.phoneNumberId || pn.id || pn.displayPhone || pn.phone_number);
@@ -2233,7 +2233,7 @@ export default function InboxPage() {
                         <button
                           key={id}
                           onClick={() => handlePhoneSelect(id)}
-                          className={`w-full text-left px-3 py-2 rounded text-sm font-medium transition-colors ${isSelected ? 'bg-blue-600 text-white' : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'}`}
+                          className={`w-full text-left px-3 py-2 rounded text-sm font-medium transition-colors ${isSelected ? 'bg-blue-600 text-white' : 'hover:bg-gray-50 text-gray-700'}`}
                         >
                           {disp}
                         </button>
@@ -2367,40 +2367,6 @@ lg:relative lg:flex
 
               {/* Action icons */}
               <div className="flex items-center gap-4 text-white">
-                <div className="relative group">
-                  <Phone
-                    size={18}
-                    className={`${iconJumpAnimation} hover:text-blue-600 transition-colors duration-200`}
-                  />
-                  <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-blue-100 text-blue-800 text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap shadow-lg border border-blue-300 font-semibold transform group-hover:translate-y-0.5">
-                    Audio call
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-blue-300"></div>
-                  </span>
-                </div>
-
-                <div className="relative group">
-                  <Video
-                    size={18}
-                    className={`${iconJumpAnimation} hover:text-blue-600 transition-colors duration-200`}
-                  />
-                  <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-blue-100 text-blue-800 text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap shadow-lg border border-blue-300 font-semibold transform group-hover:translate-y-0.5">
-                    Video call
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-blue-300"></div>
-                  </span>
-                </div>
-
-                <div className="relative group">
-                  <button
-                    onClick={() => setShowFAQFlow(!showFAQFlow)}
-                    className={`${iconJumpAnimation} hover:text-blue-600 transition-colors duration-200`}
-                  >
-                    <MessageSquare size={18} />
-                  </button>
-                  <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-blue-900 text-white text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap">
-                    FAQ Bot
-                  </span>
-                </div>
-
                 {/* Assign User Icon & Dropdown */}
                 <div className="relative group">
                   <button
@@ -2787,13 +2753,14 @@ lg:relative lg:flex
                                       <img
                                         src={msg.mediaUrl}
                                         alt="Sent image"
-                                        className="max-w-70 rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                                        className="block max-w-[260px] w-full h-auto rounded-lg cursor-pointer hover:opacity-90"
+                                        style={{ maxHeight: '320px', objectFit: 'cover' }}
                                         onClick={() => window.open(msg.mediaUrl!, "_blank")}
                                       />
                                     ) : msg.messageType === "video" || msg.mediaType?.startsWith("video/") ? (
-                                      <video src={msg.mediaUrl} controls className="max-w-70 rounded-lg" />
+                                      <video src={msg.mediaUrl} controls className="block max-w-[260px] w-full h-auto rounded-lg" />
                                     ) : msg.messageType === "audio" || msg.mediaType?.startsWith("audio/") ? (
-                                      <audio src={msg.mediaUrl} controls className="max-w-70" />
+                                      <audio src={msg.mediaUrl} controls className="w-full max-w-[260px]" />
                                     ) : (
                                       <a
                                         href={msg.mediaUrl}

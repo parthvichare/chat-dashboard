@@ -19,10 +19,12 @@ import Toast from '@/components/ui/Toast';
 import Tabs from '@/components/ui/Tabs';
 import { Contact } from '@/types';
 import api from '@/lib/api';
+import { useAuthStore } from '@/store/auth';
 
 export default function ContactsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user: authUser } = useAuthStore();
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -166,7 +168,7 @@ export default function ContactsPage() {
 
   const fetchUsers = async () => {
     try {
-      const response = await api.get('/admin/companies/user?role=user&limit=100');
+      const response = await api.get('/admin/companies/user?limit=100');
       let userList = [];
 
       if (response) {
@@ -671,12 +673,13 @@ export default function ContactsPage() {
                       {/* Created Users list filtered by search query */}
                       {users
                         .filter(user =>
-                          user.name?.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
-                          user.email?.toLowerCase().includes(userSearchQuery.toLowerCase())
+                          (!authUser || String(user.id) !== String(authUser.id)) && (
+                            user.name?.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
+                            user.email?.toLowerCase().includes(userSearchQuery.toLowerCase())
+                          )
                         )
                         .map(user => {
                           const isChecked = selectedAssignUserId === user.id;
-
 
                           return (
                             <label
@@ -693,7 +696,14 @@ export default function ContactsPage() {
                                 }}
                               />
                               <div className="truncate">
-                                <p className="font-medium text-gray-900 leading-none">{user.name}</p>
+                                <div className="flex items-center gap-2">
+                                  <p className="font-medium text-gray-900 leading-none">{user.name}</p>
+                                  {user.role && user.role.toLowerCase() !== 'user' && (
+                                    <span className="px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-800 rounded uppercase tracking-wider font-sans">
+                                      {user.role}
+                                    </span>
+                                  )}
+                                </div>
                                 <p className="text-xs text-gray-400 mt-1">{user.email || user.phone || 'no contact info'}</p>
                               </div>
                             </label>

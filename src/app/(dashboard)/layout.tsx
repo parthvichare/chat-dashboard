@@ -416,7 +416,7 @@ export default function DashboardLayout({
 
             <div className="flex items-center gap-2 lg:gap-4">
               {/* Credit Balance */}
-              {/* <Link
+              <Link
                 href="/credits"
                 className="flex items-center gap-2 px-2 lg:px-3 py-2 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors group text-xs lg:text-sm"
               >
@@ -428,16 +428,16 @@ export default function DashboardLayout({
                     {formatCurrency(balance)}
                   </span>
                 )}
-              </Link> */}
+              </Link>
 
-              {/* {company && (
+              {company && (
                 <span className="text-xs lg:text-sm text-gray-600 hidden md:inline">
                   {company.name}
                 </span>
-              )} */}
+              )}
               <button
                 onClick={handleLogout}
-                className="px-6 lg:px-4 py-2 text-xs lg:text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors whitespace-nowrap"
+                className="px-3 lg:px-4 py-2 text-xs lg:text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors whitespace-nowrap"
               >
                 Logout
               </button>

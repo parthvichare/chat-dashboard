@@ -67,7 +67,7 @@ export default function EditUserPage() {
                 status: formData.status.toLowerCase(),
             };
 
-            const response = await api.put(`/users/${params.id}`, payload);
+            const response = await api.put(`/admin/users/${params.id}`, payload);
 
             if (response.data || response) {
                 toast.success('User updated successfully');

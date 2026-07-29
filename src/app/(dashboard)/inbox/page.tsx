@@ -31,6 +31,7 @@ import {
   ChevronDown,
   UserPlus,
   Download,
+  Trash2,
 } from "lucide-react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -656,6 +657,9 @@ export default function InboxPage() {
   const [dropdownAssignments, setDropdownAssignments] = useState<any[]>([]);
   const [dropdownLoading, setDropdownLoading] = useState(false);
   const [hasLoadedFromStorage, setHasLoadedFromStorage] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeletingContact, setIsDeletingContact] = useState(false);
+  const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
 
   // 1. Load from storage on mount to prevent hydration mismatch
   useEffect(() => {
@@ -1053,6 +1057,36 @@ export default function InboxPage() {
         isLoading: false,
         autoClose: 3000,
       });
+    }
+  };
+
+  const handleDeleteContact = async () => {
+    if (!selectedContact) return;
+    const targetContactId = selectedContact.dbId || String(selectedContact.id);
+
+    try {
+      setIsDeletingContact(true);
+      await api.delete(`/admin/contacts/${targetContactId}`);
+
+      toast.success("Contact and chat deleted successfully");
+
+      setSelectedContact(null);
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("selectedContact");
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["contacts"] });
+      queryClient.invalidateQueries({ queryKey: ["messages"] });
+
+      setIsDeleteModalOpen(false);
+      setIsOptionsMenuOpen(false);
+    } catch (err: any) {
+      console.error("Failed to delete contact & chat:", err);
+      toast.error(
+        err?.response?.data?.message || err?.message || "Failed to delete contact and chat"
+      );
+    } finally {
+      setIsDeletingContact(false);
     }
   };
 
@@ -1823,11 +1857,7 @@ export default function InboxPage() {
     },
     onSuccess: (response: any, variables: any) => {
       const outgoingText =
-        typeof variables?.text === "string"
-          ? variables.text.trim()
-          : variables?.text?.body?.trim?.() ||
-          variables?.message?.trim?.() ||
-          "";
+        typeof variables?.text === "string" ? variables.text.trim() : "";
 
       const possibleWamid =
         response?.wamid ||
@@ -3698,15 +3728,61 @@ lg:relative lg:flex
                   )}
                 </div>
 
+                {/* Delete Chat & Contact Icon */}
+                {selectedContact && (
+                  <div className="relative group">
+                    <button
+                      type="button"
+                      onClick={() => setIsDeleteModalOpen(true)}
+                      className={`${iconJumpAnimation} hover:text-red-500 transition-colors duration-200 flex items-center justify-center`}
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                    <span className="absolute top-full mt-2 right-0 bg-red-100 text-red-800 text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap shadow-lg border border-red-300 font-semibold transform group-hover:translate-y-0.5 z-[70]">
+                      Delete Chat & Contact
+                      <div className="absolute bottom-full right-2.5 border-4 border-transparent border-b-red-300"></div>
+                    </span>
+                  </div>
+                )}
+
+                {/* Options (MoreVertical) */}
                 <div className="relative group">
-                  <MoreVertical
-                    size={15}
-                    className={`${iconJumpAnimation} hover:text-blue-600 transition-colors duration-200`}
-                  />
-                  <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-blue-100 text-blue-800 text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap shadow-lg border border-blue-300 font-semibold transform group-hover:translate-y-0.5">
+                  <button
+                    type="button"
+                    onClick={() => setIsOptionsMenuOpen(!isOptionsMenuOpen)}
+                    className={`${iconJumpAnimation} hover:text-blue-600 transition-colors duration-200 flex items-center justify-center`}
+                  >
+                    <MoreVertical size={18} />
+                  </button>
+                  <span className="absolute top-full mt-2 right-0 bg-blue-100 text-blue-800 text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap shadow-lg border border-blue-300 font-semibold transform group-hover:translate-y-0.5 z-[70]">
                     Options
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-blue-300"></div>
+                    <div className="absolute bottom-full right-2.5 border-4 border-transparent border-b-blue-300"></div>
                   </span>
+
+                  {/* Options Menu Backdrop */}
+                  {isOptionsMenuOpen && (
+                    <div
+                      className="fixed inset-0 z-50 cursor-default"
+                      onClick={() => setIsOptionsMenuOpen(false)}
+                    />
+                  )}
+
+                  {/* Options Dropdown Menu */}
+                  {isOptionsMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-52 rounded-xl shadow-2xl bg-white text-gray-900 border border-gray-200 z-[80] py-1 overflow-hidden">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsOptionsMenuOpen(false);
+                          setIsDeleteModalOpen(true);
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50 flex items-center gap-2.5 transition-colors"
+                      >
+                        <Trash2 size={16} />
+                        <span>Delete Chat & Contact</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
 
               </div>
@@ -4373,6 +4449,75 @@ lg:relative lg:flex
           setShowGalleryPicker(false);
         }}
       />
-    </div >
+
+      {/* Delete Chat & Contact Confirmation Modal */}
+      {isDeleteModalOpen && selectedContact && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-gray-200 animate-in fade-in zoom-in duration-200 text-gray-900">
+            <div className="flex items-center gap-3.5 mb-2">
+              <div className="w-11 h-11 rounded-xl bg-red-50 border border-red-100 text-red-600 flex items-center justify-center flex-shrink-0 shadow-sm">
+                <Trash2 size={22} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 leading-tight">
+                  Delete Chat & Contact
+                </h3>
+                <p className="text-xs text-gray-500 font-medium mt-0.5">
+                  This action is permanent and cannot be undone.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-b from-red-50/80 to-red-50/40 border border-red-200/80 rounded-xl p-4 my-4 text-sm text-gray-800 leading-relaxed">
+              Are you sure you want to delete the chat and contact for{" "}
+              <span className="font-bold text-gray-950">
+                {selectedContact.name || selectedContact.phone || "Unknown Contact"}
+              </span>
+              {selectedContact.phone && (
+                <span className="inline-block font-semibold text-red-800 bg-red-100/90 border border-red-200/60 px-2 py-0.5 rounded-md ml-1 text-xs">
+                  {selectedContact.phone}
+                </span>
+              )}
+              <span className="block text-xs text-gray-600 mt-2 font-normal">
+                All message history, media, and contact information will be permanently removed.
+              </span>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-1">
+              <button
+                type="button"
+                disabled={isDeletingContact}
+                onClick={() => setIsDeleteModalOpen(false)}
+                className="px-4 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 border border-gray-200 rounded-xl transition-all shadow-sm disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={isDeletingContact}
+                onClick={handleDeleteContact}
+                className="px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 active:scale-[0.98] rounded-xl transition-all shadow-md disabled:opacity-50 flex items-center gap-2"
+              >
+                {isDeletingContact ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 size={16} />
+                    <span>Delete Chat & Contact</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
+

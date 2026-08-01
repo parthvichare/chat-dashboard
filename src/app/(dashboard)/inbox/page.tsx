@@ -1102,7 +1102,7 @@ export default function InboxPage() {
         can_chat: String(canChat),
       });
 
-      await api.post(`/admin/contacts/${targetContactId}/assigned?${params.toString()}`);
+      await api.put(`/admin/contacts/${targetContactId}/assigned?${params.toString()}`);
       await api.put(`/admin/contacts/${targetContactId}`, {
         show_details: showDetails,
         can_chat: canChat,

@@ -369,27 +369,27 @@ export default function ContactsPage() {
         </div>
       ),
     },
-    {
-      key: 'assigned_to',
-      header: 'Assigned To',
-      render: (row) => {
-        if (!row.assigned_to) {
-          return <span className="text-sm text-gray-400">Unassigned</span>;
-        }
+    // {
+    //   key: 'assigned_to',
+    //   header: 'Assigned To',
+    //   render: (row) => {
+    //     if (!row.assigned_to) {
+    //       return <span className="text-sm text-gray-400">Unassigned</span>;
+    //     }
 
-        const user = users.find(u => String(u.id) === String(row.assigned_to.trim()));
+    //     const user = users.find(u => String(u.id) === String(row.assigned_to.trim()));
 
-        if (!user) {
-          return <span className="text-sm text-gray-400">Unassigned</span>;
-        }
+    //     if (!user) {
+    //       return <span className="text-sm text-gray-400">Unassigned</span>;
+    //     }
 
-        return (
-          <Badge variant="success">
-            {user.name}
-          </Badge>
-        );
-      },
-    },
+    //     return (
+    //       <Badge variant="success">
+    //         {user.name}
+    //       </Badge>
+    //     );
+    //   },
+    // },
     {
       key: 'is_valid',
       header: 'Status',
@@ -425,9 +425,10 @@ export default function ContactsPage() {
       key: 'actions',
       header: 'Actions',
       align: 'right',
+      width: '140px', // add this
+      cellClassName: 'overflow-visible', // add this
       render: (row) => (
-        <div className="flex items-center justify-end gap-2">
-          {/* View */}
+        <div className="flex items-center justify-end gap-2 min-w-[120px]">
           <Button
             size="sm"
             variant="ghost"
@@ -439,7 +440,6 @@ export default function ContactsPage() {
             <Eye className="h-4 w-4" />
           </Button>
 
-          {/* Edit */}
           <Button
             size="sm"
             variant="ghost"
@@ -451,16 +451,12 @@ export default function ContactsPage() {
             <Pencil className="h-4 w-4 text-blue-600" />
           </Button>
 
-          {/* Delete */}
           <Button
             size="sm"
             variant="ghost"
             onClick={(e) => {
               e.stopPropagation();
-              handleDeleteContact(
-                row.id,
-                row.name || row.phone_number
-              );
+              handleDeleteContact(row.id, row.name || row.phone_number);
             }}
           >
             <Trash2 className="h-4 w-4 text-red-600" />
